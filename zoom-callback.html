@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="tr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Akış · Zoom</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0c0c0e; color: #ededef; font: 15px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .c { text-align: center; padding: 32px; max-width: 420px; }
+  .s { width: 34px; height: 34px; margin: 0 auto 16px; border-radius: 50%; border: 3px solid #2a2a30; border-top-color: #7380f0; animation: r .8s linear infinite; }
+  h1 { font-size: 19px; margin: 0 0 6px; } p { margin: 0; color: #9b9ba3; } a { color: #8b96ff; }
+  @keyframes r { to { transform: rotate(360deg); } }
+</style>
+<div class="c"><div class="s"></div><h1>Akış'a dönülüyor…</h1><p id="m">Zoom girişi bilgisayarındaki Akış uygulamasına aktarılıyor.</p></div>
+<script>
+  // Zoom "localhost" adresine dönüş yapmayı kabul etmiyor; bu sayfa girişi bilgisayardaki Akış'a aktarır.
+  var q = new URLSearchParams(location.search), st = q.get('state') || '', m = /(\d{2,5})$/.exec(st), port = m ? m[1] : '3000';
+  var target = 'http://localhost:' + port + '/api/zoom/callback' + location.search;
+  if (q.get('code') || q.get('error')) location.replace(target);
+  else document.getElementById('m').innerHTML = 'Bu sayfa Akış\'ın Zoom bağlantısı için kullanılır. <a href="https://github.com/' + location.hostname.split('.')[0] + '">Akış</a>';
+  setTimeout(function () { document.getElementById('m').innerHTML = 'Otomatik geçmediyse <a href="' + target + '">buraya tıkla</a>. Akış açık olmalı.'; }, 4000);
+</script>
+</html>
